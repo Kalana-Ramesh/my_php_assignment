@@ -114,15 +114,22 @@ justify-content: center;
 }
 
 .login-content h1 {
-     font-size: 1.5rem;
+     font-size: 1rem;
      margin-left: 0.5rem;
      margin-top: 0.5rem;
+     font-family: cursive;
 }
 
 .input-container {
     margin : 1rem 2rem 0rem 5rem;
 }
 
+.label {
+	margin : 3px 0px 0px 2px;
+	color : var(--mainWhite);
+	font-family: cursive;
+	font-size: 12px;
+}
 
 
 .input-container input {
@@ -132,6 +139,14 @@ justify-content: center;
     margin : 3px 0px;
     width : 180px;
     border: transparent;
+}
+
+.input-container select {
+    border-radius:5px;
+    padding: 0px 5px;
+    height: 30px;
+    border: transparent;
+    margin-right: 5px;
 }
 
 .reg-name {
@@ -186,9 +201,14 @@ div.error {
 }
 
 .success-alert {
-    margin-left: 10px
+    background: var(--lightBlue);
+	font-size: 13px;
+	color:var(--mainWhite);
+	font-family: cursive;
+	padding: 2px 0px 2px 2px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
-
 
 
 @media screen and (min-width : 650px) { 
@@ -197,14 +217,22 @@ div.error {
     }
 
      div.error {
-        font-size : 14px;
+        font-size : 13px;
     }
 
     .login-content h1 {
         font-size: 2.5rem;
         margin-left: 0.5rem;
         margin-top: 0.2rem;
-}
+    }
+
+    .label {
+	    font-size: 15px;
+    }
+    
+    .success-alert {
+		font-size: 15px;
+	}
    
 }
 

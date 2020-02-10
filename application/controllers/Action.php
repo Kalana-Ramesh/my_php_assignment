@@ -20,48 +20,53 @@
             // echo "Form-submit";
             // $data = $this->input->post();
             // print_r($data);
-          
-            $config_rules = array(
-                array(
-                    "field" => "txt_fname",
-                    "label" => "First Name",
-                    "rules" => "required|min_length[3]|trim",
-                ),
-                array(
-                    "field" => "txt_lname",
-                    "label" => "Last Name",
-                    "rules" => "required|min_length[3]|trim",
-                ),
-                array(
-                    "field" => "txt_dob",
-                    "label" => "Date Of Birth",
-                    "rules" => "required|trim",
-                ),
-                array(
-                    "field" => "txt_pw",
-                    "label" => "Password",
-                    "rules" => "required|min_length[8]|trim",  
-                )
-            );
 
+             $this->form_validation->set_rules(
+                 'txt_fname',
+                 'First Name',
+                 'required|trim|min_length[3]|callback_check_name',
+                 array(
+                     'required' => 'Required',
+                     'min_length' => 'Invalid name'
+                 )
+             );
 
-            $this->form_validation->set_rules($config_rules);
+             $this->form_validation->set_rules(
+                 'txt_lname',
+                 'Last Name',
+                 'required|trim|min_length[3]|callback_check_name',
+                 array(
+                     'required' => 'Required',
+                     'min_length' => 'Invalid name'
+                 )
+             );
 
             $this->form_validation->set_rules(
                 'txt_email', 
                 'Email',
-                'required|trim|valid_email|is_unique[tbl_users.email]',
+                'required|trim|is_unique[tbl_users.email]|callback_check_email',
                 array(
-                    'valid_email' => 'Invalid email.',
-                    'is_unique'     => 'This %s already exists.'
+                    'required' => 'Required',
+                    'is_unique'     => 'Email already exists.'
                 )
             );
             
+            $this->form_validation->set_rules(
+                 'txt_pw',
+                 'Password',
+                 'required|trim|min_length[8]',
+                 array(
+                     'required' => 'Required',
+                     'min_length' => 'Required (8 characters)'
+                 )
+             );
+
             $this->form_validation->set_rules(
                 'txt_cpw',
                 'Confirm Password',
                 'required|trim|matches[txt_pw]',
                 array(
+                    'required' => 'Required',
                     'matches' => 'Password is not matched' 
                 )
             );
@@ -76,13 +81,13 @@
               
                 if ($this->user_model->insert_users($data)) {
 
-                    $this->session->set_flashdata("success", "User registerd successfully");
+                    $this->session->set_flashdata("success", "Registerd successfully");
 
                     redirect("login");
                 }
                 else {
-                     $this->session->set_flashdata("error", "User not registerd,
-                     try again");
+                    //  $this->session->set_flashdata("error", " not registerd,
+                    //  try again");
 
                      redirect("register");
                 }
@@ -93,6 +98,38 @@
             }
         }
 
+
+        public function check_name($name) {
+            $regex1 = "/^[^\\d\\s]+$/";
+            $regex2 = "/(?i)(^[a-z])((?![ .,'-]$)[a-z .,'-]){0,24}$/";
+
+            preg_match($regex1,$name,$output1);
+            preg_match($regex2,$name,$output2);
+
+            if(($output1 & $output2) || $name == '') {  
+                return true;
+            }
+            else {
+                $this->form_validation->set_message('check_name', 'Invalid name');
+                return false;
+            }
+        }
+
+        public function check_email($email) {
+
+            $regex = "/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix";
+            preg_match($regex,$email,$output);
+
+            if( ($output) || ($email == '') ) {
+                return true;
+            }
+            else {
+                $this->form_validation->set_message('check_email', 'Invalid email');
+                return false;
+            }
+
+        }
+
         public function user_login() {
        
             $this->form_validation->set_rules(
@@ -100,14 +137,18 @@
                 'Email',
                 'required|trim|valid_email',
                 array(
-                    'valid_email' => 'Invalid email.',
+                    'required' => 'Required',
+                    'valid_email' => 'Invalid email',
                 )
             );
 
             $this->form_validation->set_rules(
                 'txt_pw', 
                 'Password',
-                'required|trim'
+                'required|trim',
+                array(
+                    'required' => 'Required'
+                )
             );
 
             if($this->form_validation->run()) {
@@ -130,7 +171,7 @@
                 redirect('home');
                }
                else {
-                 $this->session->set_flashdata('login_error','Email or password incorrect');
+                 $this->session->set_flashdata('login_error','Invalid credentials');
                  //redirect('login');
                  $this->login();
                }
@@ -158,7 +199,6 @@
                 $this->load->view($page);
             }
         }
-
     }
 ?>
 

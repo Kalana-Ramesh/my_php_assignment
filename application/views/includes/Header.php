@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>My php assignment</title>
+	<title>My PHP Assignment</title>
 
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/app.css'); ?>">
 	<link rel="stylesheet" type="text/css"  href="<?php echo base_url('assets/app.css'); ?>">

@@ -17,32 +17,37 @@
         "enctype" => "multipart/form-data"
     ));?>
 
-        <div class="login-content">
-            <?php 
+        <div class="success-alert">
+        	<?php 
                 if($this->session->flashdata("success")){
             ?>
-                <div class="success-alert">
+                
                     <?php echo $this->session->flashdata("success");?>
-                </div>
+                
             <?php
             }
         ?>
+        	</div>
+        <div class="login-content">
+            
 
         <h1>Login</h1>
             <div class="input-container">
-                <div>
+                
+                <label class="label">Email</label>
+                <div class="row-error">
                     <input 
-                        type="email" 
-                        placeholder="Email" 
+                        type="text" 
                         name="txt_email"
                         value="<?php echo set_value('txt_email')?>" />
                     <?php echo form_error("txt_email","<div class=error>","</div>");
                     ?>    
                 </div>
-                <div>
+                
+                <label class="label">Password</label>
+                <div class="row-error">
                     <input 
                         type="password" 
-                        placeholder="Password" 
                         name="txt_pw"
                         value="<?php echo set_value('txt_pw')?>"/>
                     <?php echo form_error("txt_pw","<div class=error>","</div>");?>

@@ -5,14 +5,39 @@
     "btn" => "Login"
 )); ?>
 
-<!--For datepicker -->
+<!--For birthdayPicker -->
  <script type="text/javascript">
-            $(function() {
-                $("#datepicker").datepicker({
-                    dateFormat: 'yy-mm-dd'
+          $(function () {
+                for (i = new Date().getFullYear() ; i > 1900; i--) {
+                    $('#years').append($('<option />').val(i).html(i));
+                }
+
+                for (i = 1; i < 13; i++) {
+                    $('#months').append($('<option />').val(i).html(i));
+                }
+                updateNumberOfDays();
+
+                $('#years, #months').change(function () {
+                    updateNumberOfDays();
                 });
-               
+
             });
+
+            function updateNumberOfDays() {
+                $('#days').html('');
+                month = $('#months').val();
+                year = $('#years').val();
+                days = daysInMonth(month, year);
+
+                for (i = 1; i < days + 1 ; i++) {
+                    $('#days').append($('<option />').val(i).html(i));
+                }
+
+            }
+
+            function daysInMonth(month, year) {
+                return new Date(year, month, 0).getDate();
+            }
 </script>
 
 
@@ -36,61 +61,71 @@
             ?>
             <h1>Register</h1>
             <div class="input-container">
-
+                
+                <label class="label">First Name</label>
                 <div class="row-error">
                     <input
                         class='reg-name' 
                         type="text" 
-                        placeholder="First Name" 
                         name="txt_fname"
                         value="<?php echo set_value('txt_fname');?>"
                     />
                     <?php echo form_error("txt_fname","<div class=error>","</div>");?>
                 </div>
 
+                <label class="label">Last Name</label>
                 <div class="row-error">
                     <input
                         class='reg-name' 
-                        type="text" 
-                        placeholder="Last Name" 
+                        type="text"  
                         name="txt_lname"
                         value="<?php echo set_value('txt_lname')?>"/>
                      <?php echo form_error("txt_lname","<div class=error>","</div>");?>
                 </div>
-              
+
+                <label class="label">Date Of Birth (Y/M/D)</label>
                 <div class="row-error">
-                    <input
-                        readonly 
-                        type="text" 
-                        id="datepicker" 
-                        placeholder="Date of Birth" 
-                        name="txt_dob" 
-                        value="<?php echo set_value('txt_dob')?>"/>
-                     <?php echo form_error("txt_dob","<div class=error>","</div>");?>
+                    <select 
+                        id="years" 
+                        name="txt_year" 
+                        value="<?php echo set_value('txt_year')?>">
+                    </select>
+					<select 
+                        id="months" 
+                        name="txt_month" 
+                        value="<?php echo set_value('txt_month')?>">
+                    </select>
+					<select 
+                        id="days" 
+                        name="txt_day"
+                        value="<?php echo set_value('txt_day')?>">
+                    </select>
+						
+                     <?php echo form_error("txt_day","<div class=error>","</div>");?>
                 </div>
                 
+                <label class="label">Email</label>
                 <div class="row-error">
                     <input 
-                        type="email" 
-                        placeholder="Email" 
+                        type="text"  
                         name="txt_email"
                         value="<?php echo set_value('txt_email')?>"/>
                      <?php echo form_error("txt_email","<div class=error>","</div>");?>
                 </div>
 
+                <label class="label">Password</label>
                 <div class="row-error">
                     <input 
-                        type="password" 
-                        placeholder="Password" 
+                        type="password"  
                         name="txt_pw"
                         value="<?php echo set_value('txt_pw')?>"/>
                     <?php echo form_error("txt_pw","<div class=error>","</div>");?>
                 </div>
 
+                <label class="label">Confirm Password</label>
                 <div class="row-error">
                     <input 
-                        type="password" 
-                        placeholder="Confirm Password" 
+                        type="password"  
                         name="txt_cpw"
                         value= "<?php echo set_value('txt_cpw')?>"/>
                     <?php echo form_error("txt_cpw","<div class=error>","</div>");?>
